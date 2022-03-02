@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Customer, FieldInvoice, Invoice,InvoiceItem};
+use App\{Company, Customer, FieldInvoice, Invoice,InvoiceItem};
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,11 +14,11 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $invoices = Invoice::with(['customer'])->get();
-        return view('invoices.index',compact('invoices'));
+        $company = Company::findOrFail($request->company_id);
+        $invoices = Invoice::Where('company_id',$request->company_id)->with(['customer','items','fields','company'])->get();
+        return view('invoices.index',compact('invoices','company'));
     }
 
     /**
@@ -26,10 +26,10 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-
-        return view('invoices.create');
+        $company = Company::findOrFail($request->company_id);
+        return view('invoices.create',compact('company'));
     }
 
     /**
@@ -40,13 +40,14 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        $company = Company::findOrFail($request->company_id);
         $oldCustomer = Customer::where('email',$request->customer['email'])->orWhere('phone',$request->customer['phone'])->first();
         if($oldCustomer){
             $customer = $oldCustomer;
         }else{
             $customer = Customer::create($request->customer);
         }
-        $invoice = Invoice::create($request->invoice+['customer_id'=>$customer->id,'total'=>$request->invoice['total_amount'],'uuid'=>Str::orderedUuid()]);
+        $invoice = Invoice::create($request->invoice+['customer_id'=>$customer->id,'total'=>$request->invoice['total_amount'],'uuid'=>Str::orderedUuid(),'company_id'=>$company->id]);
         for ($item=0; $item < count($request->product) ; $item++) {
             if(isset($request->product[$item]) && isset($request->price[$item]) && isset($request->qty[$item])){
                 $new_item = InvoiceItem::create(['invoice_id'=>$invoice->id,'name'=>$request->product[$item],'price'=>$request->price[$item],'qty'=>$request->qty[$item],'total'=>$request->total[$item]]);

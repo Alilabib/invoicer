@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Invoice;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceObserver
@@ -15,10 +16,16 @@ class InvoiceObserver
      */
     public function created(Invoice $invoice)
     {
-        $image_name = 'invoice_'. now();
+        if(!Storage::exists('public/invoice')) {
+            Storage::makeDirectory('public/invoice', 0775, true); //creates directory
+        }
+        $image_name = 'invoice_'.Carbon::now();
         \QrCode::size(500)
         ->format('png')
-        ->generate('https://www.google.com',storage_path('app/public/inovice/'.$image_name));
+        ->generate('https://www.google.com',storage_path('app/public/invoice/'.$image_name).'.png');
+
+        $invoice->qr_link = $image_name.'.png';
+        $invoice->save();
     }
 
     /**

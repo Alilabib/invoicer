@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Invoice extends Model
 {
@@ -40,4 +41,9 @@ class Invoice extends Model
         return $total;
     }
 
+    public function getQrLinkAttribute()
+    {
+        $image = $this->attributes['qr_link'] ? Storage::url('invoice/'.$this->attributes['qr_link']): 'placeholder.png';
+        return asset($image);
+    }
 }

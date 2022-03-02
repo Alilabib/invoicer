@@ -25,6 +25,7 @@ class CreateCompaniesTable extends Migration
             $table->string('state')->nullable();
             $table->string('post_code')->nullable();
             $table->string('address')->nullable();
+            $table->string('vat')->nullable();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Company extends Model
 {
@@ -18,6 +19,12 @@ class Company extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'invoice_id', 'id');
+    }
+
+    public function getLogoLinkAttribute()
+    {
+        $image = $this->attributes['logo'] ? Storage::url($this->attributes['logo']): 'placeholder.png';
+        return asset($image);
     }
 
 

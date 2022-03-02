@@ -5,13 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Create invoice</div>
+                <div class="card-header">
+                       <span style="float: left;"> Create invoice </span>
+                        <a  class="btn btn-primary" style="float:right" href="{{route('invoice.index',['company_id'=>$company->id])}}"> All Invoice </a>
+                </div>
 
                 <form action="{{ route('invoice.store') }}" method="post">
                 @csrf
                 <div class="card-body">
                     <div class="container">
-
+                        <input type="hidden" name="company_id" value="{{$company->id}}">
                         <div class="row clearfix">
                             <div class="col-md-4 offset-4 text-center">
                                 Invoice number*:
@@ -59,20 +62,19 @@
                                 <div class="float-right col-md-4">
                                     <div class="logo">
                                         <label for="upload" style="display:block">
-                                            <img id="blah" src="{{asset('placeholder.png')}}" alt="your image" width="100px" height="100px"  aria-hidden="true" style="" class="image-preview" />
-                                            <input accept="image/*" type='file' id="imgInp" class="image-upload" />
+                                            <img id="blah" src="{{$company->logo_link}}" alt="your image" width="100px" height="100px"  aria-hidden="true" style="" class="image-preview"  />
                                         </label>
                                     </div>
 
                                     <b>Seller details</b>:
                                     <br /><br />
-                                    Your company name
+                                    {{$company->name}}
                                     <br />
-                                    1 Street Name, London, United Kingdom
+                                    {{$company->address}}
                                     <br />
-                                    Email: xxxxx@company.com
+                                    Email: {{$company->email}}
                                     <br />
-                                    VAT Number: xx xxxxx xxxx
+                                    Phone Number: {{$company->phone}}
                                 </div>
                             </div>
                         </div>
@@ -104,8 +106,8 @@
                         </div>
                         <div class="row clearfix">
                             <div class="col-md-12">
-                                <button id="add_row" class="btn btn-primary float-left">Add Row</button>
-                                <button id='delete_row' class="float-right btn btn-info">Delete Row</button>
+                                <a href="javascript:;" id="add_row" class="btn btn-primary float-left">Add Row</a>
+                                <a href="javascript:;" id='delete_row' class="float-right btn btn-info">Delete Row</a>
                             </div>
                         </div>
                         <div class="row clearfix" style="margin-top:20px">
@@ -137,7 +139,7 @@
                                 </div>
                             </div>
                         </div>
-                    <input type="submit" class="btn btn-primary" value="Save Invoice" />
+                        <input type="submit" class="btn btn-primary" value="Save Invoice" />
                     </div>
                 </div>
                 </form>

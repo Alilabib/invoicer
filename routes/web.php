@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::resource('invoice','InvoiceController');
+Route::resource('company','CompanyController');

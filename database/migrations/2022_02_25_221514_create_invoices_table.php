@@ -21,6 +21,7 @@ class CreateInvoicesTable extends Migration
             $table->string('tax')->nullable();
             $table->string('tax_amount')->nullable();
             $table->string('total')->nullable();
+            $table->string('qr_link')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->unsignedBigInteger('customer_id')->nullable();

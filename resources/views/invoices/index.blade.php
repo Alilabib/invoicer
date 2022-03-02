@@ -11,7 +11,7 @@
                             {{session('status')}}
                         </div>
                     @endif
-                    <a href="{{route('invoice.create')}}" class="btn btn-primary">Add new Invoice</a>
+                    <a href="{{route('invoice.create',['company_id'=>$company->id])}}" class="btn btn-primary">Add new Invoice</a>
                     <br>
                     <br>
                     <table class="table">
