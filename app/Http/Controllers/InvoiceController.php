@@ -59,7 +59,7 @@ class InvoiceController extends Controller
                 }
         }
 
-        return 'created';
+        return redirect()->route('invoice.index',['company_id'=>$company->id]);
     }
 
     /**

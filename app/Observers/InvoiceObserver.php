@@ -22,7 +22,7 @@ class InvoiceObserver
         $image_name = 'invoice_'.Carbon::now();
         \QrCode::size(500)
         ->format('png')
-        ->generate('https://www.google.com',storage_path('app/public/invoice/'.$image_name).'.png');
+        ->generate('http://invoicer.develobug.com/invoice/'.$invoice->id,storage_path('app/public/invoice/'.$image_name).'.png');
 
         $invoice->qr_link = $image_name.'.png';
         $invoice->save();
