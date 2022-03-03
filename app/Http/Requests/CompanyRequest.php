@@ -34,7 +34,7 @@ class CompanyRequest extends FormRequest
             'company.postcode'=>'nullable|string',
             'company.address' =>'nullable|string',
             'company.vat'     =>'nullable|string',
-            'logo'            =>'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000',
+            'logo'            =>'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ];
     }
 }
